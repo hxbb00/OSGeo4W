@@ -1,0 +1,12 @@
+/cygwin
+/package-cache
+/src/qgis-dev/osgeo4w/osgeo4w/
+/src/qgis-dev/qgis
+/src/qgis-dev/osgeo4w/build
+/x86_64
+/src/qgis-dev/osgeo4w/package.log*
+/src/qgis-dev/osgeo4w/install
+/tmp
+/src/qgis-dev/osgeo4w/exclude
+/qgis
+/md5sums
