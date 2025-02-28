@@ -176,15 +176,16 @@ nextbinary
 		-D SITE="$SITE" \
 		-D PEDANTIC=TRUE \
 		-D WITH_QSPATIALITE=TRUE \
-		-D WITH_SERVER=TRUE \
+		-D WITH_SERVER=FALSE \
 		-D SERVER_SKIP_ECW=TRUE \
-		-D WITH_3D=TRUE \
+		-D WITH_3D=FALSE \
 		-D WITH_PDAL=TRUE \
-		-D WITH_HANA=TRUE \
-		-D WITH_GRASS=TRUE \
-		-D WITH_GRASS8=TRUE \
+		-D WITH_HANA=FALSE \
+		-D WITH_GRASS=FALSE \
+		-D WITH_GRASS8=FALSE \
+		-D ENABLE_TESTS=FALSE \
 		-D GRASS_PREFIX8="$(cygpath -m $GRASS_PREFIX)" \
-		-D WITH_ORACLE=TRUE \
+		-D WITH_ORACLE=FALSE \
 		-D WITH_CUSTOM_WIDGETS=TRUE \
 		-D CMAKE_BUILD_TYPE=$BUILDCONF \
 		-D CMAKE_CONFIGURATION_TYPES="$BUILDCONF" \
@@ -223,7 +224,7 @@ nextbinary
 	mkdir -p $BUILDDIR/apps/$P/pdb
 
 	echo ALL_BUILD: $(date)
-	echo cmake --build $(cygpath -am $BUILDDIR) --target ${TARGET}Build --config $BUILDCONF
+	cmake --build $(cygpath -am $BUILDDIR) --config $BUILDCONF
 	tag=$(head -1 $BUILDDIR/Testing/TAG | sed -e "s/\r//")
 	if grep -q "<Error>" $BUILDDIR/Testing/$tag/Build.xml; then
 		sed -e '/src\\/ s#\\#/#g' $BUILDDIR/Testing/Temporary/LastBuild_$tag.log

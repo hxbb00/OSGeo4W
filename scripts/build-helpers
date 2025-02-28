@@ -285,7 +285,7 @@ vs2022env() {
 		v=$(fileversion "$dhd")
 
 		case $v in
-		10.0.22621.*)
+		10.0.19041.*|10.0.22621.*)
 			;;
 		*)
 			log Replacing $dhd $v
