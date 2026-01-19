@@ -28,20 +28,22 @@ if [ -d ../gdal ]; then
 			exit 1
 		fi
 	fi
-
-	cd ../osgeo4w
 else
 	git clone $REPO --branch master --single-branch ../gdal
 	git config core.filemode false
 	unset OSGEO4W_SKIP_CLEAN
+	cd ../gdal
 fi
 
-if [ -z "$OSGEO4W_SKIP_CLEAN" -a -s patch ]; then
-	git apply --directory=../gdal --check patch
-	git apply --directory=../gdal patch
+if [ -z "$OSGEO4W_SKIP_CLEAN" ]; then
+	git apply --allow-empty --check ../osgeo4w/patch
+	git apply --allow-empty ../osgeo4w/patch
 fi
 
-SHA=$(cd ../gdal; git log -n1 --pretty=%h)
+
+SHA=$(git log -n1 --pretty=%h)
+
+cd ../osgeo4w
 
 #
 # Download MrSID, ECW and filegdb dependencies

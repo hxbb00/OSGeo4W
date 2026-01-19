@@ -2,6 +2,7 @@
 call "%~dp0\o4w_env.bat"
 call "%~dp0\qt6_env.bat"
 call "%~dp0\gdal-dev-py-env.bat"
+call "%~dp0\pdal-dev-env.bat"
 @echo off
 path %OSGEO4W_ROOT%\apps\@package@\bin;%PATH%
 set QGIS_PREFIX_PATH=%OSGEO4W_ROOT:\=/%/apps/@package@

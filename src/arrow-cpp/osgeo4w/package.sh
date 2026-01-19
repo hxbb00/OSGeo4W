@@ -1,5 +1,5 @@
 export P=arrow-cpp
-export V=19.0.1
+export V=23.0.0
 export B=next
 export MAINTAINER=JuergenFischer
 export BUILDDEPENDS="boost-devel openssl-devel thrift-devel zstd-devel bzip2-devel zlib-devel lz4-devel brotli-devel snappy-devel protobuf-devel utf8proc python3-devel python3-pip python3-setuptools python3-wheel python3-numpy"
@@ -9,13 +9,12 @@ source ../../../scripts/build-helpers
 
 startlog
 
+# FIXME show be fixed in thrift package
+sed -i -e 's#$ENV{OSGEO4W_ROOT}/\$ENV{OSGEO4W_ROOT}#$ENV{OSGEO4W_ROOT}#' osgeo4w/cmake/thrift/ThriftConfig.cmake
+
 [ -f apache-arrow-$V.tar.gz ] || wget https://dist.apache.org/repos/dist/release/arrow/arrow-$V/apache-arrow-$V.tar.gz
 sha512sum -c apache-arrow-$V.tar.gz.sha512
 [ -d ../apache-arrow-$V ] || tar -C .. -xzf apache-arrow-$V.tar.gz
-[ -f ../apache-arrow-$V/patched ] || {
-	patch -d ../apache-arrow-$V -p1 --dry-run <diff
-	patch -d ../apache-arrow-$V -p1 <diff >../apache-arrow-$V/patched
-}
 
 (
 	fetchenv osgeo4w/bin/o4w_env.bat
@@ -35,10 +34,11 @@ sha512sum -c apache-arrow-$V.tar.gz.sha512
 	# …\src\arrow-cpp\apache-arrow-19.0.1\cpp\src\parquet\size_statistics.cc(182): error C2079: 'partial_hist' uses undefined class 'std::array<std::vector<int64_t,std::allocator<int64_t>>,4>'
 	# (see also apache/arrow#45545)
 
+	export OSGEO4W_ROOT=$(cygpath -am "$OSGEO4W_ROOT")
+
 	cmake -G Ninja \
 		-D CMAKE_BUILD_TYPE=Release \
 		-D CMAKE_UNITY_BUILD=ON \
-		-D CMAKE_CXX_STANDARD=17 \
 		-D CMAKE_INSTALL_PREFIX=../install \
 		-D ARROW_BUILD_EXAMPLES=OFF \
 		-D ARROW_DEPENDENCY_SOURCE=SYSTEM \
@@ -70,6 +70,7 @@ sha512sum -c apache-arrow-$V.tar.gz.sha512
 			-D utf8proc_LIB=$(cygpath -am ../osgeo4w/lib/utf8proc_static.lib) \
 		-D xsimd_SOURCE=BUNDLED \
 		-D RapidJSON_SOURCE=BUNDLED \
+		-D THRIFT_CMAKE_DIR=$(cygpath -am ../osgeo4w/cmake/thrift) \
 		../../apache-arrow-$V/cpp
 
 	cmake --build .
@@ -122,6 +123,6 @@ EOF
 cp ../apache-arrow-$V/LICENSE.txt $R/$P-devel/$P-devel-$V-$B.txt
 tar -C install -cjf $R/$P-devel/$P-devel-$V-$B.tar.bz2 include lib share
 
-tar -C .. -cjf $R/$P-$V-$B-src.tar.bz2 osgeo4w/package.sh osgeo4w/diff
+tar -C .. -cjf $R/$P-$V-$B-src.tar.bz2 osgeo4w/package.sh
 
 endlog

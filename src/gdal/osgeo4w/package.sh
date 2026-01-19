@@ -142,7 +142,6 @@ export MRSID_SDK=$(cygpath -am gdaldeps/$MRSID_SDK)
 		-D                       GDAL_USE_OPENCL=ON \
 		-D                     Python_EXECUTABLE=$(cygpath -am ../osgeo4w/apps/$PYTHON/python3.exe) \
 		-D             Python_NumPy_INCLUDE_DIRS=$(cygpath -am ../osgeo4w/apps/$PYTHON/Lib/site-packages/numpy/core/include) \
-		-D                       SWIG_EXECUTABLE=$(cygpath -am ../osgeo4w/bin/swig.bat) \
 		-D                       ECW_INCLUDE_DIR=$(cygpath -am ../gdaldeps/ecw/include) \
 		-D                           ECW_LIBRARY=$(cygpath -am ../gdaldeps/ecw/lib/vc141/x64/NCSEcw.lib) \
 		-D                   FileGDB_INCLUDE_DIR=$(cygpath -am ../gdaldeps/filegdb/include) \
@@ -188,7 +187,7 @@ export MRSID_SDK=$(cygpath -am gdaldeps/$MRSID_SDK)
 
 	cmake --build .
 	cmake --build . --target install || cmake --build . --target install
-	cmakefix ../install
+	sed -i -Ee 's#\$\{_IMPORT_PREFIX\}/(lib|include|bin)#$ENV{OSGEO4W_ROOT}/\1#g' ../install/apps/$P/lib/cmake/gdal/*
 )
 
 mkdir -p install/etc/{postinstall,preremove}
@@ -452,9 +451,10 @@ tar -C install -cjvf $R/$P-devel/$P-devel-$V-$B.tar.bz2 \
 	-h --hard-dereference \
 	--exclude "apps/$P/lib/gdalplugins/drivers.ini" \
 	--xform "s,apps/$P/include,include," \
-	--xform "s,apps/$P/././lib/gdal$abi.lib,lib/gdal.lib," \
-	--xform "s,apps/$P/./lib/gdal$abi.lib,lib/gdal_i.lib," \
-	--xform "s,apps/$P/lib/gdal$abi.lib,lib/gdal$abi.lib," \
+	--xform "s,apps/$P/././lib/$P$abi.lib,lib/$P.lib," \
+	--xform "s,apps/$P/./lib/$P$abi.lib,lib/${P}_i.lib," \
+	--xform "s,apps/$P/lib/$P$abi.lib,lib/$P$abi.lib," \
+	--xform "s,apps/$P/lib/cmake/,lib/cmake/," \
 	apps/$P/include \
 	apps/$P/././lib/gdal$abi.lib \
 	apps/$P/./lib/gdal$abi.lib \
@@ -484,7 +484,7 @@ tar -C .. -cjvf $R/$P-$V-$B-src.tar.bz2 \
 ) |
 	sed -re "/\.pyc$/d;
 s#^install/##;
-/apps\/gdal\/(bin\/|include\/|lib\/gdal.*\.lib$)/ { s/apps\/gdal\///; }
+/apps\/gdal\/(bin\/|include\/|lib\/gdal.*\.lib$|lib\/cmake)/ { s/apps\/gdal\///; }
 /apps\/$P\/(Scripts|lib\/site-packages)\// { s/apps\/$P\//apps\/$PYTHON\//; }
 /apps\/$PYTHON\/Scripts\/.*\.py$/ { s/$/.tmpl/; }
 " >/tmp/$P.installed
