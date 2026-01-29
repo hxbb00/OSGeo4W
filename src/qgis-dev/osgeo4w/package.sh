@@ -117,6 +117,7 @@ nextbinary
 	fetchenv osgeo4w/bin/o4w_env.bat
 	fetchenv osgeo4w/bin/qt6_env.bat
 	fetchenv osgeo4w/bin/gdal-dev-env.bat
+	fetchenv osgeo4w/bin/pdal-dev-env.bat
 
 	vsenv
 	cmakeenv
@@ -167,6 +168,7 @@ nextbinary
 		-D CMAKE_C_COMPILER="$(cygpath -m $CC)" \
 		-D CMAKE_LINKER=link.exe \
 		-D SUBMIT_URL="https://cdash.orfeo-toolbox.org/submit.php?project=QGIS" \
+		-D CMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$(cygpath -m ../osgeo4w/apps/gdal-dev/lib/cmake/gdal);$(cygpath -m ../osgeo4w/apps/pdal-dev/lib/cmake/PDAL)" \
 		-D CMAKE_CXX_FLAGS_${BUILDCONF^^}="/MD /Z7 /MP /Od /D NDEBUG /permissive-" \
 		-D CMAKE_SHARED_LINKER_FLAGS_${BUILDCONF^^}="/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF" \
 		-D CMAKE_MODULE_LINKER_FLAGS_${BUILDCONF^^}="/INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF" \
