@@ -65,6 +65,7 @@ bc2c5aa3a71a7a913843a8cf521adcbb node
 ebece3896618ecf0b60c4fade17f026f qtkeychain
 5d47798af29b2fe81b2d3fad2e060df4 GRASS
 2ad5ea97a10ddec5c5ec6a851d21c509 GRASS
+f99c45741f388137849b7e38b0a9fa94 GRASS \ GIS
 6047399bd24af8d0aecf1c15daf79f0b OpenCV
 625f055f41728f84a8d7938acc35bdc2 GPL 2
 627e6ecababe008a45c70e318ae7014e zlib
@@ -73,6 +74,7 @@ ebece3896618ecf0b60c4fade17f026f qtkeychain
 698403c963b048f30801fb862036f868 arrow-cpp (Apache License)
 8031a2c33230c952ed3f3ccff1d3fa89 arrow-cpp (Apache License)
 100c3e6324688e340080d7fd971b8c5e arrow-cpp (Apache License)
+0badcc877b5f854c7ecea97159bf6d73 arrow-cpp (Apache License)
 6d1d8588f77968671ae8efda2c8cc584 avce00
 6e8dee932c26f2dab503abf70c96d8bb webp (google)
 706d3e64d41296000418082ec809645d RIVERBANK COMPUTING LIMITED LICENSE AGREEMENT FOR SIP
