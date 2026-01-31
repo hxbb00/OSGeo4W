@@ -67,6 +67,10 @@ if [ -d qgis ]; then
 		until (( i > 10 )) || git pull; do
 			(( ++i ))
 		done
+		if (( i > 10 )); then
+			echo pull failed
+			exit 1
+		fi
 	fi
 elif [ -n "$BRANCH" ]; then
 	git clone $REPO --branch $BRANCH --single-branch --depth 1 qgis
