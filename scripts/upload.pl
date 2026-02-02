@@ -322,6 +322,9 @@ unless(keys %files) {
 	exit 0;
 }
 
+# in case --remove-source-files was used.
+system "git checkout acceptable.lst" unless -f "acceptable.lst";
+
 my $opt = $ENV{OSGEO4W_RSYNC_OPT} || "";
 
 my($host,$path) = $ENV{MASTER_SCP} =~ /^(.*):(.*)$/;
