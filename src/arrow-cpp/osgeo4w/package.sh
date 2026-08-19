@@ -1,5 +1,5 @@
 export P=arrow-cpp
-export V=25.0.0
+export V=25.0.1
 export B=next
 export MAINTAINER=JuergenFischer
 export BUILDDEPENDS="boost-devel openssl-devel thrift-devel zstd-devel bzip2-devel zlib-devel lz4-devel brotli-devel snappy-devel protobuf-devel utf8proc python3-devel python3-pip python3-setuptools python3-wheel python3-numpy"
@@ -51,7 +51,8 @@ sha512sum -c apache-arrow-$V.tar.gz.sha512
 		-D ARROW_PARQUET=ON \
 			-D PARQUET_REQUIRE_ENCRYPTION=ON \
 		-D ARROW_DATASET=ON \
-		-D ARROW_WITH_RE2=OFF \
+		-D ARROW_WITH_RE2=ON \
+			-D re2_SOURCE=BUNDLED \
 		-D ARROW_WITH_SNAPPY=ON \
 		-D ARROW_WITH_BROTLI=ON \
 		-D ARROW_WITH_LZ4=ON \
